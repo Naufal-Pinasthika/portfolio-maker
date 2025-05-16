@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Curriculum Vitae</title>
+  <!-- Google Font: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Pengaturan dasar untuk dokumen */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 40px;
+      color: #000;
+      background: #fff;
+      line-height: 1.5;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .header h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    .header .contact {
+      font-size: 14px;
+      margin-top: 3px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #000;
+      margin: 2px 0;
+    }
+    .section {
+      margin-bottom: 2px; /* antar section sangat minimal */
+    }
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+      padding-bottom: 1px;
+    }
+    /* Block untuk Education, Work Experience, Leadership menggunakan Flexbox */
+    .edu-item, .work-item, .leadership-item {
+      position: relative;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .edu-left, .work-left, .leadership-left {
+      flex: 1;
+      margin-right: 45%;  /* Sisakan ruang untuk kolom kanan */
+    }
+    .edu-right, .work-right, .leadership-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: right;
+      white-space: nowrap; /* agar tidak membungkus */
+    }
+    /* Pengaturan bullet point: rapat sekali */
+    .achievement, .work-details, .leadership-details {
+      margin: 0;
+      padding-left: 2px; /* padding minimal */
+      font-size: 14px;
+      white-space: pre-line;
+      line-height: 0.2; /* sangat rapat */
+    }
+    .achievement span,
+    .work-details span,
+    .leadership-details span {
+      display: block;
+      margin: 0;
+      padding: 0;
+      line-height: 0.001;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header: Nama dan Kontak -->
+  <div class="header">
+    <h1>{{ name }}</h1>
+    <div class="contact">{{ email }} • {{ phone }}</div>
+  </div>
+  <hr>
+  
+  <!-- Education Section -->
+  <div class="section">
+    <h2>Education</h2>
+    <div class="edu-item">
+      <div class="edu-left">
+        <div class="uni">{{ edu_university }}</div>
+        <div class="degree">
+          {{ edu_degree_major }}{% if edu_gpa %} – GPA: {{ edu_gpa }}{% endif %}
+        </div>
+      </div>
+      <div class="edu-right">
+        <div class="location">{{ edu_city }}</div>
+        <div class="year">{{ edu_year }}</div>
+      </div>
+    </div>
+    {% if edu_achievement %}
+      <div class="achievement">
+        {% for line in edu_achievement.splitlines() %}
+          {% set trimmed = line.strip() %}
+          {# Abaikan baris yang hanya berisi minus setelah menghapus spasi #}
+          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+            {% if not trimmed.startswith("•") %}
+              <span>• {{ trimmed }}</span>
+            {% else %}
+              <span>{{ trimmed }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Work Experience Section -->
+  <div class="section">
+    <h2>Work Experience</h2>
+    <div class="work-item">
+      <div class="work-left">
+        <div class="company">{{ work_company }}</div>
+        <div class="position">{{ work_position }}</div>
+      </div>
+      <div class="work-right">
+        <div class="location">{{ work_city }}</div>
+        <div class="period">{{ work_period }}</div>
+      </div>
+    </div>
+    {% if work_details %}
+      <div class="work-details">
+        {% for line in work_details.splitlines() %}
+          {% set trimmed = line.strip() %}
+          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+            {% if not trimmed.startswith("•") %}
+              <span>• {{ trimmed }}</span>
+            {% else %}
+              <span>{{ trimmed }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Leadership & Activities Section -->
+  <div class="section">
+    <h2>Leadership &amp; Activities</h2>
+    <div class="leadership-item">
+      <div class="leadership-left">
+        <div class="role">{{ leadership_role }}</div>
+        <div class="org">{{ leadership_org }}</div>
+      </div>
+      <div class="leadership-right">
+        <div class="period">{{ leadership_period }}</div>
+      </div>
+    </div>
+    {% if leadership_details %}
+      <div class="leadership-details">
+        {% for line in leadership_details.splitlines() %}
+          {% set trimmed = line.strip() %}
+          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+            {% if not trimmed.startswith("•") %}
+              <span>• {{ trimmed }}</span>
+            {% else %}
+              <span>{{ trimmed }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Skills & Interests Section -->
+  <div class="section">
+    <h2>Skills &amp; Interests</h2>
+    <div class="content">
+      {{ skills }}
+    </div>
+  </div>
+</body>
+</html>
