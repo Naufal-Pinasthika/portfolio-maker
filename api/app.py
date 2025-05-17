@@ -1,8 +1,13 @@
+import os
+
+# Atur LD_LIBRARY_PATH agar menyertakan folder lib dari wkhtmltopdf
+os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'wkhtmltopdf', 'lib')
+
 from flask import Flask, request, render_template, send_file, redirect, flash
 import pdfkit
 from io import BytesIO
 
-# Inisialisasi Flask dengan folder templates yang ada di level atas
+# Inisialisasi Flask dengan mengarahkan ke folder templates yang ada satu level di atas
 app = Flask(__name__, template_folder="../templates")
 app.secret_key = 'ganti_dengan_secret_key_anda'  # Ganti dengan secret key Anda
 
@@ -11,44 +16,36 @@ def index():
     if request.method == 'POST':
         # Validasi required fields
         required_fields = [
-            'name', 'email', 'phone', 'edu_university',
-            'edu_city','edu_degree_major', 'edu_gpa', 'edu_year'
+            'name', 'email', 'phone', 'edu_university', 'edu_city', 
+            'edu_degree_major', 'edu_gpa', 'edu_year'
         ]
         missing_fields = [field for field in required_fields if not request.form.get(field)]
         if missing_fields:
             flash("Mohon lengkapi field berikut: " + ", ".join(missing_fields), "danger")
             return redirect('/')
         
-        # Personal Information
+        # Ambil data dari form
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        
-        # Education Fields
         edu_university = request.form.get('edu_university')
         edu_city = request.form.get('edu_city')
         edu_degree_major = request.form.get('edu_degree_major')
         edu_gpa = request.form.get('edu_gpa')
         edu_year = request.form.get('edu_year')
         edu_achievement = request.form.get('edu_achievement')
-        
-        # Work Experience Fields
         work_company = request.form.get('work_company')
         work_city = request.form.get('work_city')
         work_position = request.form.get('work_position')
         work_period = request.form.get('work_period')
         work_details = request.form.get('work_details')
-        
-        # Leadership & Activities Fields
         leadership_role = request.form.get('leadership_role')
         leadership_org = request.form.get('leadership_org')
         leadership_period = request.form.get('leadership_period')
         leadership_details = request.form.get('leadership_details')
-        
-        # Skills & Interests
         skills = request.form.get('skills')
         
-        # Render template portfolio dengan data input
+        # Render template HTML dengan data yang diberikan
         rendered = render_template('portfolio_template.html',
                                    name=name,
                                    email=email,
@@ -70,7 +67,7 @@ def index():
                                    leadership_details=leadership_details,
                                    skills=skills)
         try:
-            # Konfigurasi pdfkit dengan binary wkhtmltopdf yang berada di folder proyek (Linux)
+            # Gunakan binary wkhtmltopdf dari folder proyek
             config = pdfkit.configuration(wkhtmltopdf="./wkhtmltopdf/bin/wkhtmltopdf")
             pdf = pdfkit.from_string(rendered, False, configuration=config)
         except Exception as e:
@@ -82,9 +79,6 @@ def index():
                          download_name="portfolio.pdf",
                          mimetype='application/pdf')
     return render_template('form.html')
-
-# Perlu diingat: Jangan definisikan variabel 'handler' di sini.
-# Vercel akan secara otomatis menggunakan objek 'app' sebagai entry point.
 
 if __name__ == '__main__':
     app.run(debug=True)
