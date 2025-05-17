@@ -105,8 +105,8 @@
       <div class="achievement">
         {% for line in edu_achievement.splitlines() %}
           {% set trimmed = line.strip() %}
-          {# Abaikan baris yang hanya berisi minus setelah menghapus spasi #}
-          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+          {# Cek apakah baris, setelah menghapus "-" dan spasi, tidak kosong #}
+          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
             {% if not trimmed.startswith("•") %}
               <span>• {{ trimmed }}</span>
             {% else %}
@@ -135,7 +135,7 @@
       <div class="work-details">
         {% for line in work_details.splitlines() %}
           {% set trimmed = line.strip() %}
-          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
             {% if not trimmed.startswith("•") %}
               <span>• {{ trimmed }}</span>
             {% else %}
@@ -163,7 +163,7 @@
       <div class="leadership-details">
         {% for line in leadership_details.splitlines() %}
           {% set trimmed = line.strip() %}
-          {% if trimmed and trimmed|replace(" ", "") != '-' %}
+          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
             {% if not trimmed.startswith("•") %}
               <span>• {{ trimmed }}</span>
             {% else %}
