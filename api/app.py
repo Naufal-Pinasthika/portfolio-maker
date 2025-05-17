@@ -1,13 +1,8 @@
-import os
-
-# Atur LD_LIBRARY_PATH agar menyertakan folder lib dari wkhtmltopdf
-os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'wkhtmltopdf', 'lib')
-
 from flask import Flask, request, render_template, send_file, redirect, flash
 import pdfkit
 from io import BytesIO
 
-# Inisialisasi Flask dengan mengarahkan ke folder templates yang ada satu level di atas
+# Inisialisasi Flask dengan mengarahkan ke folder templates yang berada satu level di atas
 app = Flask(__name__, template_folder="../templates")
 app.secret_key = 'ganti_dengan_secret_key_anda'  # Ganti dengan secret key Anda
 
@@ -67,7 +62,8 @@ def index():
                                    leadership_details=leadership_details,
                                    skills=skills)
         try:
-            # Gunakan binary wkhtmltopdf dari folder proyek
+            # Gunakan binary wkhtmltopdf static dari folder proyek:
+            # Karena binary ini statis, tidak perlu mengatur LD_LIBRARY_PATH.
             config = pdfkit.configuration(wkhtmltopdf="./wkhtmltopdf/bin/wkhtmltopdf")
             pdf = pdfkit.from_string(rendered, False, configuration=config)
         except Exception as e:
