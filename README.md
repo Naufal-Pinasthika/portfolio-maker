@@ -1,108 +1,106 @@
 **Portfolio Maker**
 
-**Deskripsi**
-Portfolio Maker adalah aplikasi web sederhana yang memungkinkan pengguna membuat Curriculum Vitae (CV) secara interaktif dan mengunduhnya dalam format PDF hanya dengan satu klik.
+**Description**
+Portfolio Maker is a simple web application that allows users to create a Curriculum Vitae (CV) interactively and download it as a PDF.
 
 ---
 
-## Fitur Utama
+## Key Features
 
-* **Form Input**: Pengguna mengisi data pribadi, pendidikan, pengalaman kerja, kepemimpinan, dan keterampilan.
-* **Preview**: Setelah submit form, aplikasi menampilkan preview CV langsung di browser.
-* **One-click PDF**: Dengan satu klik tombol `Lihat & Download CV`, PDF CV otomatis dihasilkan dan diunduh.
+* **Form Input**: Users fill in personal details, education, work experience, leadership roles, and skills.
+* **Live Preview**: After submitting the form, the application displays a CV preview directly in the browser.
+* **One-click PDF**: With a single click on the **`View & Download CV`** button, the CV is automatically generated and downloaded as a PDF.
 
 ---
 
-## Struktur Proyek
+## Project Structure
 
 ```
 portfolio-maker/
 ├─ api/
-│  └─ app.py            # Aplikasi Flask tanpa PDFkit
+│  └─ app.py                   # Flask application without PDFkit
 ├─ templates/
-│  ├─ form.html         # Halaman input form
-│  └─ portfolio_template.html  # Template CV dengan html2pdf.js
+│  ├─ form.html                # Form input page
+│  └─ portfolio_template.html  # CV template using html2pdf.js
 ├─ static/
 │  └─ js/
-│     └─ script.js      # Kode client-side html2pdf trigger & auto-download
-├─ requirements.txt     # Daftar dependencies Python
-└─ vercel.json          # Konfigurasi deploy ke Vercel
+│     └─ script.js             # Client-side html2pdf trigger & auto-download code
+├─ requirements.txt            # Python dependencies
+└─ vercel.json                 # Vercel deployment configuration
 ```
 
 ---
 
-## Persyaratan
+## Requirements
 
-* Python 3.7+
+* Python 3.7 or higher
 * Git
-* Akun Vercel (opsional, untuk deploy)
+* Vercel account (optional, for deployment)
 
 ---
 
-## Cara Menjalankan Secara Lokal
+## Local Setup
 
-1. **Clone repository**:
+1. **Clone the repository**:
 
    ```bash
    git clone https://github.com/Naufal-Pinasthika/portfolio-maker.git
    cd portfolio-maker
    ```
 
-2. **Pasang environment**:
+2. **Create and activate a virtual environment**:
 
    ```bash
    python3 -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   venv\\Scripts\\activate  # Windows
+   source venv/bin/activate    # Linux/Mac
+   venv\\Scripts\\activate   # Windows
    pip install -r requirements.txt
    ```
 
-3. **Jalankan server Flask**:
+3. **Start the Flask server**:
 
    ```bash
    python api/app.py
    ```
 
-   Aplikasi berjalan di `http://127.0.0.1:5000/`.
+   The application will run at `http://127.0.0.1:5000/`.
 
-4. **Akses aplikasi** di browser: buka `http://127.0.0.1:5000/`.
+4. **Open the application** in your browser at `http://127.0.0.1:5000/`.
 
 ---
 
-## Cara Deploy ke Vercel
+## Deployment to Vercel
 
-1. Pasang Vercel CLI:
+1. **Install Vercel CLI**:
 
    ```bash
    npm install -g vercel
    ```
 
-2. Login & deploy:
+2. **Login and deploy**:
 
    ```bash
    vercel login
    vercel
    ```
 
-3. Ikuti instruksi hingga selesai. Aplikasi akan tersedia di `https://portfolio-maker-green.vercel.app/` (atau subdomain-mu sendiri).
+3. Follow the prompts to complete the deployment. Your app will be available at `https://YOUR-DEPLOYMENT-URL.vercel.app/`.
 
 ---
 
-## Cara Menggunakan Aplikasi
+## How to Use
 
-1. Buka halaman utama.
-2. Isi semua field yang diperlukan (nama, email, pendidikan, pengalaman, dsb.).
-3. Klik tombol **Lihat & Download CV**.
-4. Aplikasi akan menampilkan preview CV, lalu otomatis mengunduh file `portfolio.pdf`.
-
----
-
-## Catatan Teknis
-
-* Proses PDF dijalankan **sepenuhnya di sisi klien** menggunakan `html2pdf.js`.
-* Tidak diperlukan binary eksternal (`wkhtmltopdf`) atau library server-side lain.
-* PDF otomatis ter-generate saat halaman preview dimuat.
+1. Navigate to the home page.
+2. Fill in all required fields (name, email, education, experience, etc.).
+3. Click the **`View & Download CV`** button.
+4. The app will show a live preview of your CV and automatically download it as `portfolio.pdf`.
 
 ---
 
-**Selamat mencoba!**
+## Technical Notes
+
+* PDF generation is handled **entirely on the client side** using `html2pdf.js`.
+* No external binaries (e.g., `wkhtmltopdf`) or additional server-side libraries are required.
+* The PDF is generated automatically when the preview page loads.
+
+---
