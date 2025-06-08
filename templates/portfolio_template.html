@@ -77,110 +77,117 @@
       line-height: 0.001;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-  <!-- Header: Nama dan Kontak -->
-  <div class="header">
-    <h1>{{ name }}</h1>
-    <div class="contact">{{ email }} • {{ phone }}</div>
-  </div>
-  <hr>
-  
-  <!-- Education Section -->
-  <div class="section">
-    <h2>Education</h2>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="uni">{{ edu_university }}</div>
-        <div class="degree">
-          {{ edu_degree_major }}{% if edu_gpa %} – GPA: {{ edu_gpa }}{% endif %}
+  <div id="portfolio-content">
+    <!-- Header: Nama dan Kontak -->
+    <div class="header">
+      <h1>{{ name }}</h1>
+      <div class="contact">{{ email }} • {{ phone }}</div>
+    </div>
+    <hr>
+    
+    <!-- Education Section -->
+    <div class="section">
+      <h2>Education</h2>
+      <div class="edu-item">
+        <div class="edu-left">
+          <div class="uni">{{ edu_university }}</div>
+          <div class="degree">
+            {{ edu_degree_major }}{% if edu_gpa %} – GPA: {{ edu_gpa }}{% endif %}
+          </div>
+        </div>
+        <div class="edu-right">
+          <div class="location">{{ edu_city }}</div>
+          <div class="year">{{ edu_year }}</div>
         </div>
       </div>
-      <div class="edu-right">
-        <div class="location">{{ edu_city }}</div>
-        <div class="year">{{ edu_year }}</div>
-      </div>
-    </div>
-    {% if edu_achievement %}
-      <div class="achievement">
-        {% for line in edu_achievement.splitlines() %}
-          {% set trimmed = line.strip() %}
-          {# Cek apakah baris, setelah menghapus "-" dan spasi, tidak kosong #}
-          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
-            {% if not trimmed.startswith("•") %}
-              <span>• {{ trimmed }}</span>
-            {% else %}
-              <span>{{ trimmed }}</span>
+      {% if edu_achievement %}
+        <div class="achievement">
+          {% for line in edu_achievement.splitlines() %}
+            {% set trimmed = line.strip() %}
+            {# Cek apakah baris, setelah menghapus "-" dan spasi, tidak kosong #}
+            {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
+              {% if not trimmed.startswith("•") %}
+                <span>• {{ trimmed }}</span>
+              {% else %}
+                <span>{{ trimmed }}</span>
+              {% endif %}
             {% endif %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
-  
-  <!-- Work Experience Section -->
-  <div class="section">
-    <h2>Work Experience</h2>
-    <div class="work-item">
-      <div class="work-left">
-        <div class="company">{{ work_company }}</div>
-        <div class="position">{{ work_position }}</div>
-      </div>
-      <div class="work-right">
-        <div class="location">{{ work_city }}</div>
-        <div class="period">{{ work_period }}</div>
-      </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
-    {% if work_details %}
-      <div class="work-details">
-        {% for line in work_details.splitlines() %}
-          {% set trimmed = line.strip() %}
-          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
-            {% if not trimmed.startswith("•") %}
-              <span>• {{ trimmed }}</span>
-            {% else %}
-              <span>{{ trimmed }}</span>
+    
+    <!-- Work Experience Section -->
+    <div class="section">
+      <h2>Work Experience</h2>
+      <div class="work-item">
+        <div class="work-left">
+          <div class="company">{{ work_company }}</div>
+          <div class="position">{{ work_position }}</div>
+        </div>
+        <div class="work-right">
+          <div class="location">{{ work_city }}</div>
+          <div class="period">{{ work_period }}</div>
+        </div>
+      </div>
+      {% if work_details %}
+        <div class="work-details">
+          {% for line in work_details.splitlines() %}
+            {% set trimmed = line.strip() %}
+            {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
+              {% if not trimmed.startswith("•") %}
+                <span>• {{ trimmed }}</span>
+              {% else %}
+                <span>{{ trimmed }}</span>
+              {% endif %}
             {% endif %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
-  
-  <!-- Leadership & Activities Section -->
-  <div class="section">
-    <h2>Leadership &amp; Activities</h2>
-    <div class="leadership-item">
-      <div class="leadership-left">
-        <div class="role">{{ leadership_role }}</div>
-        <div class="org">{{ leadership_org }}</div>
-      </div>
-      <div class="leadership-right">
-        <div class="period">{{ leadership_period }}</div>
-      </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
-    {% if leadership_details %}
-      <div class="leadership-details">
-        {% for line in leadership_details.splitlines() %}
-          {% set trimmed = line.strip() %}
-          {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
-            {% if not trimmed.startswith("•") %}
-              <span>• {{ trimmed }}</span>
-            {% else %}
-              <span>{{ trimmed }}</span>
+    
+    <!-- Leadership & Activities Section -->
+    <div class="section">
+      <h2>Leadership &amp; Activities</h2>
+      <div class="leadership-item">
+        <div class="leadership-left">
+          <div class="role">{{ leadership_role }}</div>
+          <div class="org">{{ leadership_org }}</div>
+        </div>
+        <div class="leadership-right">
+          <div class="period">{{ leadership_period }}</div>
+        </div>
+      </div>
+      {% if leadership_details %}
+        <div class="leadership-details">
+          {% for line in leadership_details.splitlines() %}
+            {% set trimmed = line.strip() %}
+            {% if trimmed and trimmed|replace("-", "")|replace(" ", "") != "" %}
+              {% if not trimmed.startswith("•") %}
+                <span>• {{ trimmed }}</span>
+              {% else %}
+                <span>{{ trimmed }}</span>
+              {% endif %}
             {% endif %}
-          {% endif %}
-        {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    
+    <!-- Skills & Interests Section -->
+    <div class="section">
+      <h2>Skills &amp; Interests</h2>
+      <div class="content">
+        {{ skills }}
       </div>
-    {% endif %}
-  </div>
-  
-  <!-- Skills & Interests Section -->
-  <div class="section">
-    <h2>Skills &amp; Interests</h2>
-    <div class="content">
-      {{ skills }}
     </div>
   </div>
+  <button id="btn-generate" style="margin:20px 0; padding:10px 15px;">
+    Download PDF
+  </button>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
