@@ -189,5 +189,23 @@
     Download PDF
   </button>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script>
+  const pdfOptions = {
+    margin:       0.5,
+    filename:     "portfolio.pdf",
+    image:        { type: "jpeg", quality: 0.98 },
+    html2canvas:  { scale: 2, logging: true, useCORS: true },
+    jsPDF:        { unit: "in", format: "a4", orientation: "portrait" }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const element = document.getElementById("portfolio-content");
+    if (!element) return console.error("Elemen #portfolio-content tidak ditemukan");
+
+    html2pdf().set(pdfOptions).from(element).save()
+      .then(() => console.log("✅ PDF otomatis ter-generate"))
+      .catch(err => console.error("❌ Gagal auto-generate PDF:", err));
+  });
+  </script>
 </body>
 </html>
