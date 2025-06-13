@@ -141,30 +141,30 @@
     }
     .form-control {
       width: 100%;
-      /* Latar yang lebih terang agar input “terlihat” */
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 8px;
-      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255,255,255,0.3) !important;
+      border-radius: 8px !important;
+      padding: 10px 12px !important;
       color: #fff !important;
-      caret-color: #fff; /* kursor/blinking cursor putih */
+      caret-color: #fff !important;
       transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+      /* Untuk menghindari override oleh browser, pakai !important di beberapa properti */
     }
     .form-control::placeholder {
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.7) !important;
     }
     .form-control:focus {
-      outline: none;
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #63a0e8; /* warna fokus lebih terang */
-      box-shadow: 0 0 0 3px rgba(99,160,232,0.3);
+      outline: none !important;
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: #63a0e8 !important;
+      box-shadow: 0 0 0 3px rgba(99,160,232,0.3) !important;
       color: #fff !important;
-      caret-color: #fff;
+      caret-color: #fff !important;
     }
     /* Highlight/selection dalam input */
     .form-control::selection {
-      background: rgba(255,255,255,0.2);
-      color: #fff;
+      background: rgba(255,255,255,0.2) !important;
+      color: #fff !important;
     }
 
     /* ==============================
@@ -191,17 +191,39 @@
     }
 
     /* ==============================
+       Override Autofill (Firefox / Mozilla)
+       ============================== */
+    /* Firefox uses :-moz-autofill pseudoclass */
+    input:-moz-autofill,
+    textarea:-moz-autofill,
+    select:-moz-autofill {
+      background-color: rgba(255,255,255,0.1) !important;
+      color: #fff !important;
+      caret-color: #fff !important;
+      /* Firefox kadang butuh box-shadow juga */
+      box-shadow: 0 0 0px 1000px rgba(255,255,255,0.1) inset !important;
+    }
+    input:-moz-autofill:focus,
+    textarea:-moz-autofill:focus,
+    select:-moz-autofill:focus {
+      background-color: rgba(255,255,255,0.15) !important;
+      color: #fff !important;
+      caret-color: #fff !important;
+      box-shadow: 0 0 0px 1000px rgba(255,255,255,0.15) inset !important;
+    }
+
+    /* ==============================
        Validasi Input
        ============================== */
     .form-control.is-invalid {
-      border-color: #e05555;
-      background: rgba(224,85,85,0.2);
+      border-color: #e05555 !important;
+      background: rgba(224,85,85,0.2) !important;
       color: #fff !important;
-      caret-color: #fff;
+      caret-color: #fff !important;
     }
     .form-control.is-invalid:focus {
-      box-shadow: 0 0 0 3px rgba(224,85,85,0.3);
-      caret-color: #fff;
+      box-shadow: 0 0 0 3px rgba(224,85,85,0.3) !important;
+      caret-color: #fff !important;
     }
     .invalid-feedback {
       color: #e05555;
@@ -275,18 +297,18 @@
         <div class="card-body">
           <div class="form-group mb-3">
             <label for="name" class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="FirstName LastName" required>
+            <input type="text" class="form-control" id="name" name="name" placeholder="FirstName LastName" required autocomplete="name">
             <div class="invalid-feedback">Nama lengkap wajib diisi.</div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6 form-group">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="youremail@example.com" required>
+              <input type="email" class="form-control" id="email" name="email" placeholder="youremail@example.com" required autocomplete="email">
               <div class="invalid-feedback">Email tidak valid atau kosong.</div>
             </div>
             <div class="col-md-6 form-group">
               <label for="phone" class="form-label">No HP</label>
-              <input type="text" class="form-control" id="phone" name="phone" placeholder="Nomor Telepon" required>
+              <input type="text" class="form-control" id="phone" name="phone" placeholder="Nomor Telepon" required autocomplete="tel">
               <div class="invalid-feedback">No HP wajib diisi.</div>
             </div>
           </div>
@@ -301,12 +323,12 @@
         <div class="card-body">
           <div class="form-group mb-3">
             <label for="edu_university" class="form-label">University Name</label>
-            <input type="text" class="form-control" id="edu_university" name="edu_university" placeholder="Contoh: ABCD UNIVERSITY" required>
+            <input type="text" class="form-control" id="edu_university" name="edu_university" placeholder="Contoh: ABCD UNIVERSITY" required autocomplete="organization">
             <div class="invalid-feedback">Nama universitas wajib diisi.</div>
           </div>
           <div class="form-group mb-3">
             <label for="edu_city" class="form-label">City, Country</label>
-            <input type="text" class="form-control" id="edu_city" name="edu_city" placeholder="Contoh: City, Country" required>
+            <input type="text" class="form-control" id="edu_city" name="edu_city" placeholder="Contoh: City, Country" required autocomplete="address-level2">
             <div class="invalid-feedback">Lokasi wajib diisi.</div>
           </div>
           <div class="form-group mb-3">
@@ -342,12 +364,12 @@
         <div class="card-body">
           <div class="form-group mb-3">
             <label for="work_company" class="form-label">Company/Organization</label>
-            <input type="text" class="form-control" id="work_company" name="work_company" placeholder="Contoh: XYZ Corp" required>
+            <input type="text" class="form-control" id="work_company" name="work_company" placeholder="Contoh: XYZ Corp" required autocomplete="organization">
             <div class="invalid-feedback">Nama perusahaan wajib diisi.</div>
           </div>
           <div class="form-group mb-3">
             <label for="work_city" class="form-label">City, Country</label>
-            <input type="text" class="form-control" id="work_city" name="work_city" placeholder="Contoh: City, Country" required>
+            <input type="text" class="form-control" id="work_city" name="work_city" placeholder="Contoh: City, Country" required autocomplete="address-level2">
             <div class="invalid-feedback">Lokasi wajib diisi.</div>
           </div>
           <div class="form-group mb-3">
