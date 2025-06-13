@@ -130,7 +130,7 @@
     }
 
     /* ==============================
-       Label & Input Styling (lebih terang)
+       Label & Input Styling (lebih terang) + caret-color putih
        ============================== */
     .form-label {
       font-weight: 500;
@@ -146,7 +146,8 @@
       border: 1px solid rgba(255,255,255,0.3);
       border-radius: 8px;
       padding: 10px 12px;
-      color: #fff;
+      color: #fff !important;
+      caret-color: #fff; /* kursor/blinking cursor putih */
       transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
     }
     .form-control::placeholder {
@@ -157,6 +158,12 @@
       background: rgba(255, 255, 255, 0.15);
       border-color: #63a0e8; /* warna fokus lebih terang */
       box-shadow: 0 0 0 3px rgba(99,160,232,0.3);
+      color: #fff !important;
+      caret-color: #fff;
+    }
+    /* Highlight/selection dalam input */
+    .form-control::selection {
+      background: rgba(255,255,255,0.2);
       color: #fff;
     }
 
@@ -170,16 +177,17 @@
       box-shadow: 0 0 0px 1000px rgba(255,255,255,0.1) inset !important;
       -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.1) inset !important;
       -webkit-text-fill-color: #fff !important;
+      caret-color: #fff !important;
       /* Agar saat fokus autofill tetap sama */
       transition: background-color 5000s ease-in-out 0s !important;
     }
-    /* Saat fokus pada autofill */
     input:-webkit-autofill:focus,
     textarea:-webkit-autofill:focus,
     select:-webkit-autofill:focus {
       box-shadow: 0 0 0px 1000px rgba(255,255,255,0.15) inset !important;
       -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.15) inset !important;
       -webkit-text-fill-color: #fff !important;
+      caret-color: #fff !important;
     }
 
     /* ==============================
@@ -188,10 +196,12 @@
     .form-control.is-invalid {
       border-color: #e05555;
       background: rgba(224,85,85,0.2);
-      color: #fff;
+      color: #fff !important;
+      caret-color: #fff;
     }
     .form-control.is-invalid:focus {
       box-shadow: 0 0 0 3px rgba(224,85,85,0.3);
+      caret-color: #fff;
     }
     .invalid-feedback {
       color: #e05555;
