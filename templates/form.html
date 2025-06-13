@@ -362,7 +362,7 @@
           </div>
           <div class="form-group mb-3">
             <label for="edu_degree_major" class="form-label">Degree &amp; Major</label>
-            <input type="text" class="form-control" id="edu_degree_major" name="edu_degree_major" placeholder="Contoh: S1 Teknik Informatika" required>
+            <input type="text" class="form-control" id="edu_degree_major" name="edu_degree_major" placeholder="Contoh: S1 Ilmu Komputer" required>
             <div class="invalid-feedback">Degree & Major wajib diisi.</div>
           </div>
           <div class="row mb-3">
@@ -478,30 +478,52 @@
 
   <!-- JavaScript untuk memastikan re-paint setelah autofill -->
   <script>
+    // Fungsi untuk reapply style pada input yang ada isinya
+    function reapplyInputStyle(input) {
+      // Pastikan hanya untuk form-control
+      if (!input.classList.contains('form-control')) return;
+      // Jika ada value, atur style putih sepenuhnya
+      if (input.value !== '') {
+        input.style.setProperty('color', '#fff', 'important');
+        input.style.setProperty('background', 'rgba(255,255,255,0.15)', 'important');
+        input.style.setProperty('caret-color', '#fff', 'important');
+        // WebKit text fill
+        input.style.webkitTextFillColor = '#fff';
+      }
+    }
+
+    // Event: deteksi CSS animation autofill
     document.addEventListener('animationstart', function(e) {
-      // Deteksi CSS animation bernama onAutoFillStart
       if (e.animationName === 'onAutoFillStart') {
-        const input = e.target;
-        // Re-apply style untuk memastikan teks putih penuh
-        input.style.color = '#fff';
-        input.style.background = 'rgba(255,255,255,0.15)';
-        input.style.caretColor = '#fff';
+        reapplyInputStyle(e.target);
       }
     });
 
-    // Setelah halaman load, periksa input yang sudah terisi (autofilled)
+    // Setelah load: polling singkat untuk reapply style di input yang sudah terisi (autofill sebelum load)
     window.addEventListener('load', function() {
-      // Beri sedikit delay agar autofill selesai diterapkan
-      setTimeout(() => {
+      let count = 0;
+      const intervalId = setInterval(() => {
         document.querySelectorAll('.form-control').forEach(input => {
-          if (input.value) {
-            // Re-apply warna putih penuh
-            input.style.color = '#fff';
-            input.style.background = 'rgba(255,255,255,0.15)';
-            input.style.caretColor = '#fff';
-          }
+          reapplyInputStyle(input);
         });
-      }, 200);
+        count++;
+        if (count >= 10) {
+          clearInterval(intervalId);
+        }
+      }, 200); // setiap 200ms, total ~2 detik
+    });
+
+    // Pada focus: tunggu sedikit lalu reapply
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('focus', function() {
+        setTimeout(() => {
+          reapplyInputStyle(input);
+        }, 150);
+      });
+      // Juga pada input event: jika browser memicu input event setelah autofill
+      input.addEventListener('input', function() {
+        reapplyInputStyle(input);
+      });
     });
   </script>
 </body>
